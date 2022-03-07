@@ -3,6 +3,7 @@ black
 click
 colorama
 Django
+django-heroku
 mypy-extensions
 pathspec
 pip
