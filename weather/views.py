@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.template import RequestContext
 
 from datetime import datetime
 import json
@@ -29,8 +30,8 @@ def index(request):
                 "humidity": f"{main_json_data['humidity']}%",
                 "visibility": f"{json_data['visibility']} m",
                 "windSpeed": f"{json_data['wind']['speed']} mph",
-                "sunrise": f"{datetime.fromtimestamp(json_data['sys']['sunrise'])} GMT",
-                "sunset": f"{datetime.fromtimestamp(json_data['sys']['sunset'])} GMT",
+                "sunrise": f"{datetime.fromtimestamp(json_data['sys']['sunrise'])}",
+                "sunset": f"{datetime.fromtimestamp(json_data['sys']['sunset'])}",
                 "description": f"{json_data['weather'][0]['main']}",
                 "cityName": json_data["name"],
                 "cod": cod,
@@ -41,3 +42,15 @@ def index(request):
         city = ""
         data = {}
     return render(request, "index.html", {"city": city, "data": data})
+
+
+def handler404(request, exception, template_name="404.html"):
+    response = render(None, template_name)
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render(None, "500.html")
+    response.status_code = 500
+    return response
